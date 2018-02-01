@@ -78,10 +78,8 @@
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
             </div>
-            <input type="text" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" 
-                value="{{ $paciente->fecha_nacimiento}}"
-                name="fecha_nacimiento" 
-                >
+            <input type="text" class="form-control pull-right" id="datepicker" value="{{ $paciente->fecha_nacimiento}}"
+                name="fecha_nacimiento">
         </div>
         <span class="text-danger error error_fecha_nacimiento"></span>
      </div>
@@ -102,5 +100,13 @@
         </div>
     </div>   
 </div>
+
+<script type="text/javascript">
+    $(function(){
+        $('#datepicker').datepicker({
+            autoclose : true
+        });
+    })
+</script>
 
 

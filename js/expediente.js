@@ -1,40 +1,68 @@
 $(document).ready(function(){
-	
-	//variables
-	var pacientes = $('#pacientes');
-	var nuevaConsulta = $('#nuevo_consulta');
-	var formularioConsulta = $('#form_consulta');
-	//Ver datos
+	$('#users').DataTable({
+        "language" : {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        },
+        ordering : false
+    });
 
-	pacientes.change(function(event){
-		event.preventDefault();
-		var ruta   	= $('#ruta_show').attr('href');
-		var loader	= $(this).siblings('span');
-		loader.show(); 
-		ruta = ruta + '/' + $(this).val();
-		$.get(ruta,function(data){
-			loader.hide();
-			console.log(data);
-			$('#datos_expediente').html(data.table)
-		}).fail(function(error){
-			loader.hide();
-			alert('Ocurrio un error');
-		});
-	});
+    $('#suir_info').click(function(event){
+    	event.preventDefault();
+    	tHis = $(this);
+    	tHis.children('span').show();
+    	form = $('#nueva_consulta');
 
-	/*nuevo_consulta.click(function(event){
-		event.preventDefault();
-		var ruta = $(this).attr('href') + '/' + pacientes.val();
-		nuevo_consulta.siblings('.overlay').show();
-		$.get(ruta,function(data){
-			nuevo_consulta.siblings('.overlay').hide();
-			formularioConsulta.show().html(data);
-			$('#datos_expediente').html(data.table)
-		}).fail(function(error){
-			nuevo_consulta.siblings('.overlay').hide();
-			alert('Ocurrio un error');
-		});
-	});*/
+    	var url  = form.attr('action');
+    	var data = form.serialize();
 
+    	$.post(url, data, function(){
+    		location.reload(true);
+    	}).fail(function(error){
+    		alert('Ocurrio un error verifica tus datos');
+    		tHis.children('span').hide();
+    	}); 
+    });
 
+    $('#graficos').click(function(event){
+        var ruta = $('#ruta_chart').attr('href');
+
+        $.get(ruta,function(data){
+            new Chart($('#lineChart'),{
+                "type" : "line",
+                "data" : {
+                    
+                    "labels"   : data.pr_fe,
+                    
+                    "datasets" : [
+                        {
+                            "label":"Comportamiento de la presión del paciente",
+                            "data" : data.pr_pr,
+                            "fill" : false,
+                            "borderColor":"rgb(75, 192, 192)",
+                            "lineTension":0.1
+                        }
+                    ]
+                },
+                "options":{}
+            });
+            new Chart($('#lineChart_p'),{
+                "type" : "line",
+                "data" : {
+                    
+                    "labels"   : data.ps_fe,
+                    
+                    "datasets" : [
+                        {
+                            "label":"Comportamiento de la presión del paciente",
+                            "data" : data.ps_ps,
+                            "fill" : false,
+                            "borderColor":"rgb(75, 192, 192)",
+                            "lineTension":0.1
+                        }
+                    ]
+                },
+                "options":{}
+            });
+        });
+    });
 });

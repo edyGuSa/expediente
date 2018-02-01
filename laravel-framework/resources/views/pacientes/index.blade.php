@@ -1,7 +1,4 @@
 @extends('structure/structure')
-
-
-
 	@section('homepage')
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <div class="box box-primary">

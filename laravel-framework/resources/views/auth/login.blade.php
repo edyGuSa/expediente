@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Log in</title>
+  <title>ExpADMIN | Login </title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -28,7 +28,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>ECE</b>A</a>
+    <a ><b>ECE</b>A</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
@@ -57,15 +57,10 @@
       </div>
       <div class="row">
         <div class="col-xs-8">
-          <div class="checkbox">
-              <label>
-                  <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Recuerdame
-              </label>
-          </div>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
         </div>
         <div class="col-xs-8">
           @if (session('error_message'))

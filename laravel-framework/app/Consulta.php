@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Consulta extends Model
 {
-    protected $table = 'historico_';
+    protected $table = 'historico_consulta';
     protected $fillable = [
     	'paciente_id',
     	'notas_medicas',
-    	'medicacion',
+    	'medicación',
     	'diagnostico',
     ];
 }

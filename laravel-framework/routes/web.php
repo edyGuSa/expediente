@@ -14,12 +14,23 @@ Auth::routes();
 
 
 Route::get('/', function () {
-    return view('auth.login');
+    return redirect('home');
 });
 
 Route::group(['middleware' => ['web','auth']], function () {
 	Route::resource('pacientes','UsuarioController');
+	
 	Route::resource('consultas','ConsultaController');
+	
+	Route::get('consultas/ver/{user}','ConsultaController@getExpediente')->name('ver_expediente');
+
+	Route::get('consultas/get/data/{user}','ConsultaController@getChartData')->name('chart_data');
+	
+	Route::post('consultas/store/{id_user}','ConsultaController@storeConsulta')->name('storeConsulta');
+	
+	Route::get('home',function(){
+		return view('home');
+	});
 });
 
 

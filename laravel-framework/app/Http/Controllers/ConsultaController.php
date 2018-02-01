@@ -11,6 +11,7 @@ use App\Consulta;
 use App\Estatura;
 use App\Peso;
 use App\Presion;
+use Carbon\Carbon;
 
 class ConsultaController extends Controller
 {
@@ -21,37 +22,10 @@ class ConsultaController extends Controller
      */
     public function index()
     {
-        $pacientes = User::where('is_admin','0')->pluck('name','id');
+        $pacientes = User::where('is_admin',false)->get();
         return view('consultas.index',compact('pacientes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $paciente = User::where('id',$id)->get()->first();
@@ -74,42 +48,83 @@ class ConsultaController extends Controller
         return Response::json($data);   
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+    public function getExpediente($id_user){
+        $paciente = User::where('id',$id_user)->get()->first();
+        $edad = Carbon::createFromFormat('d/m/Y',$paciente->fecha_nacimiento)->age;
+        $paciente['edad'] = $edad;
+        
+        $peso = Peso::where('paciente_id',$id_user)->get()->last();
+        $estatura = Estatura::where('paciente_id',$id_user)->get()->last();
+        if(!empty($peso)){
+            $paciente['peso'] = $peso->peso;
+        }
+        if(!empty($estatura)){
+            $paciente['altura'] = $estatura->estatura;
+        }
+        if(!empty($peso) && !empty($estatura)){
+            $paciente['imc'] = $estatura->imc;   
+        }
+        $consultas = Consulta::where('paciente_id',$id_user)->get();
+
+        return view('consultas.expediente',compact('paciente','consultas')); 
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
+    public function storeConsulta(Request $request, $id_user){
+        $consulta = new Consulta([
+            'paciente_id'   => $id_user,
+            'notas_medicas' => $request->input('notas_medicas'),
+            'medicación'    => $request->input('medicación'),
+            'diagnostico'   => $request->input('diagnostico')
+        ]);
 
+        $peso = new Peso([
+            'paciente_id'    => $id_user,
+            'peso'           => $request->input('peso'),
+            'fecha_registro' => Carbon::now()->format('d/m/Y')
+        ]);
+
+        $presion = new Presion([
+            'paciente_id'    => $id_user,
+            'precion'        => $request->input('presion'),
+            'fecha_registro' => Carbon::now()
+        ]);
+
+        $altura = new Estatura([
+            'paciente_id'    => $id_user,
+            'estatura'       => $request->input('estatura'),
+            'fecha_registro' => Carbon::now()
+        ]);
+
+        $consulta->save();
+        $peso->save();
+        $altura->save();
+        $presion->save();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    public function getChartData($id_user){
+        $presion = Presion::where('paciente_id',$id_user)->get();
+        $peso    = Peso::where('paciente_id',$id_user)->get();
 
-    public function newConsulta ($id){
-        $paciente = User::where('id',$id)->get()->first();
-        return view('consultas.consulta',compact('paciente'));
+        $pr_fe = array( );
+        $pr_pr = array( );
+        foreach ($presion as $value) {
+            array_push($pr_fe, $value->fecha_registro);
+            array_push($pr_pr, $value->precion); 
+        }
+
+        $ps_fe = array( );
+        $ps_ps = array( );
+        foreach ($peso as $value) {
+            array_push($ps_fe, $value->fecha_registro);
+            array_push($ps_ps, $value->peso); 
+        }
+
+        $data['pr_fe'] = $pr_fe;
+        $data['pr_pr'] = $pr_pr;
+        $data['ps_fe'] = $ps_fe;
+        $data['ps_ps'] = $ps_ps;
+        
+        return $data;
+
     }
 }

@@ -19,6 +19,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href=" {{ URL::asset('assets/dist/css/AdminLTE.min.css')}}">
   <link rel="stylesheet" href=" {{ URL::asset('assets/dist/css/skins/skin-blue.min.css')}}">
   <link rel="stylesheet" href=" {{ URL::asset('assets/plugins/jquery.dataTables.min.css')}}"/>
+  <link rel="stylesheet" href=" {{ URL::asset('assets/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
+  <link rel="stylesheet" href=" {{ URL::asset('assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 
  
   <!-- Google Font -->
@@ -36,7 +38,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>ECE</b>A</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Expediente</b>ADMIN</span>
+        <span class="logo-lg"><b>Expediente</b>ECE</span>
       </a>
 
       <!-- Header Navbar -->
@@ -50,10 +52,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <ul class="nav navbar-nav">
             <!-- Messages: style can be found in dropdown.less-->
             <li class="dropdown messages-menu">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-envelope-o"></i>
-                <span class="label label-success">4</span>
-              </a>
+            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
+              <i class="fa fa-fw fa-power-off"></i> Salir
+            </a>
+            <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+            </form>
             </li>
             <!-- /.messages-menu -->
 
@@ -140,10 +144,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <footer class="main-footer">
       <!-- To the right -->
       <div class="pull-right hidden-xs">
-        Anything you want
+        Clinica 2010
       </div>
       <!-- Default to the left -->
-      <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+      <strong>Copyright &copy; 2017 <a href="#">Expediente ECE</a>.</strong> Todos los derechos reservados.
     </footer>  
   </div>
   <!-- ./wrapper -->
@@ -158,6 +162,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="{{ URL::asset('assets/dist/js/adminlte.min.js')}}"></script>
   <!-- Plugins Opcionales-->
   <script src="{{ URL::asset('assets/plugins/jquery.dataTables.min.js')}}"></script>
+  <script src="{{ URL::asset('assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+  <script src="{{ URL::asset('assets/bower_components/Chart.js/Chart.js') }}"></script>
 
   @yield('scripts')
   

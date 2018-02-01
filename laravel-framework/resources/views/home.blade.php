@@ -1,23 +1,20 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
-
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
+@extends('structure/structure')
+    @section('homepage')
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <div class="box box-primary">
+            <div class="box-header ui-sortable-handle" style="cursor: move;">
+              <i class="ion ion-clipboard"></i>
+              <h3 class="box-title">Home</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
             </div>
         </div>
-    </div>
-</div>
-@endsection
+     @endsection
+
+    @section('scripts')
+        <script src="{{asset('/js/users.js')}}"></script>
+        <script src="{{ URL::asset('assets/plugins/input-mask/jquery.inputmask.js')}}"></script>
+        <script src="{{ URL::asset('assets/plugins/input-mask/jquery.inputmask.date.extensions.js')}}"></script>
+        <script src="{{ URL::asset('assets/plugins/input-mask/jquery.inputmask.extensions.js')}}"></script>
+    @endsection
