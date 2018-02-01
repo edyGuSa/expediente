@@ -107,7 +107,7 @@
                     <label for="inputName" class="col-sm-2 control-label">Diagnóstico:</label>
 
                     <div class="col-sm-10">
-                      <textarea class="form-control" name="diagnostico" placeholder="Diagnóstico"></textarea>
+                      <textarea class="form-control" name="diagnostico" placeholder="Diagnóstico" required></textarea>
                     </div>
                   </div>
 
@@ -135,6 +135,7 @@
                                            step="any"
                                            min="50" 
                                            max="200"
+                                           required
                                           >
                     </div>
                   </div>
@@ -149,6 +150,7 @@
                                             step="1"
                                             min="30" 
                                             max="200"
+                                            required
                                           >
                     </div>
                   </div>
@@ -165,7 +167,7 @@
                     <label for="inputName" class="col-sm-2 control-label">Tratamiento:</label>
 
                     <div class="col-sm-10">
-                      <textarea class="form-control" name="medicación" placeholder="Tratamiento"></textarea>
+                      <textarea class="form-control" name="medicación" placeholder="Tratamiento" required></textarea>
                     </div>
                   </div>
 

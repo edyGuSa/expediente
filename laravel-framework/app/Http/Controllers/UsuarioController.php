@@ -21,7 +21,7 @@ class UsuarioController extends Controller
     }
 
     public function store(PacienteRequest $request){
-    	
+    	$username = strtolower ($request->input('name').str_random(5));
         $nuevo = new User([
             'name' 				=> $request->input('name'),
             'lastname'       	=> $request->input('lastname'), 
@@ -33,7 +33,7 @@ class UsuarioController extends Controller
             'fecha_nacimiento' 	=> $request->input('fecha_nacimiento'),
             'is_admin'         	=> false,
             'password'         	=> bcrypt(strtolower ($request->input('name').str_random(5))),
-            'username'         	=> strtolower ($request->input('name').str_random(5)),   
+            'username'         	=> $username,   
         ]); 
 
         $nuevo->save();
